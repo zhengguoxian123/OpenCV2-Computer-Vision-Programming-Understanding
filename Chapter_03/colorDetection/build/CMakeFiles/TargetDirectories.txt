@@ -1,0 +1,1 @@
+/home/os/opencv_practice/Chapter_03/colorDetection/build/CMakeFiles/colorDetection.dir

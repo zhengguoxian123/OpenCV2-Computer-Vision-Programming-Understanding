@@ -1,0 +1,1 @@
+/home/os/opencv_practice/Chapter_05/mprpho2/build/CMakeFiles/morpho2.dir

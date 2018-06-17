@@ -1,0 +1,112 @@
+#ifndef HARRISDETECTOR_HPP
+#define HARRISDETECTOR_HPP
+
+#include<vector>
+#include<opencv2/core.hpp>
+#include<opencv2/imgproc/imgproc.hpp>
+#include<opencv2/highgui/highgui.hpp>
+#include<opencv2/features2d/features2d.hpp>
+
+class HarrisDetector
+{
+private:
+
+    cv::Mat cornerStrength;
+
+    cv::Mat cornerTh;
+
+    cv::Mat localMax;
+
+    int neighbourhood;
+
+    int aperture;
+
+    double k;
+
+    double maxStrength;
+
+    double threshold;
+
+    int nonMaxSize;
+
+    cv::Mat kernel;
+
+public:
+
+    HarrisDetector(): neighbourhood(3),aperture(3),k(0.1),maxStrength(0.0),threshold(0.01),nonMaxSize(3)
+    {
+        setLocalMaxWindowSize(nonMaxSize);
+    }
+
+    void setLocalMaxWindowSize(int size)
+    {
+        nonMaxSize = size;
+        kernel.create(nonMaxSize,nonMaxSize,CV_8U);
+    }
+
+    void detect(const cv::Mat& image)
+    {
+        cv::cornerHarris(image,cornerStrength,
+                         neighbourhood,
+                         aperture,
+                         k);
+        double minStrength;
+        cv::minMaxLoc(cornerStrength,&minStrength,&maxStrength);
+
+        cv::Mat dilated;
+        cv::dilate(cornerStrength,dilated,cv::Mat());
+        cv::compare(cornerStrength,dilated,localMax,cv::CMP_EQ);
+
+    }
+
+    cv::Mat getCornerMap(double qualityLevel)
+    {
+        cv::Mat cornerMap;
+
+        threshold = qualityLevel*maxStrength;
+
+        cv::threshold(cornerStrength,cornerTh,threshold,255,cv::THRESH_BINARY);
+
+        cornerTh.convertTo(cornerMap,CV_8U);
+
+        cv::bitwise_and(cornerMap,localMax,cornerMap);
+
+        return cornerMap;
+    }
+
+    void getCorners(std::vector<cv::Point>& points,double qualityLevel)
+    {
+        cv::Mat cornerMap = getCornerMap(qualityLevel);
+        //???
+        getCorners(points,cornerMap);
+    }
+
+    void getCorners(std::vector<cv::Point>& points, const cv::Mat& cornerMap)
+    {
+        for(int y=0;y<cornerMap.rows;y++)
+        {
+            const uchar* rowPtr = cornerMap.ptr<uchar>(y);
+            for(int x = 0;x<cornerMap.cols;x++)
+            {
+                if(rowPtr[x])
+                {
+                    points.push_back(cv::Point(x,y));
+                }
+            }
+        }
+    }
+
+    void drawOnImage(cv::Mat& image,const std::vector<cv::Point>& points,cv::Scalar color=cv::Scalar(255,255,255),int radius=3,int thickness = 2)
+    {
+        std::vector<cv::Point>::const_iterator it = points.begin();
+
+        while(it!= points.end())
+        {
+            cv::circle(image,*it,radius,color,thickness);
+            ++it;
+        }
+    }
+
+};
+
+#endif

@@ -1,0 +1,3 @@
+opencv3相比于opencv2特征点检测接口变了，需要另外安装contrib
+
+安装opencv2.4  以及加了一些头文件就好用了

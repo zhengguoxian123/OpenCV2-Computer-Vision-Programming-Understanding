@@ -1,0 +1,1 @@
+/home/os/opencv_practice/Chapter_06/directional_filter/build/CMakeFiles/directional_filter.dir

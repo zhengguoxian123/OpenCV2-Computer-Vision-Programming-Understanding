@@ -1,0 +1,1 @@
+/home/os/opencv_practice/Chapter_05/morphology/build/CMakeFiles/morphology.dir

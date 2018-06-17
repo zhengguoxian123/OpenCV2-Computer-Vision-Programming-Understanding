@@ -1,0 +1,1 @@
+/home/os/opencv_practice/Chapter_06/filter/build/CMakeFiles/filter.dir

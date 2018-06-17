@@ -1,0 +1,1 @@
+/home/zgx/opencv2_practicecode/Chapter_02/saltImage/build/CMakeFiles/saltImage.dir

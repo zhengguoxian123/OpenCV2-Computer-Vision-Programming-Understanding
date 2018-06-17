@@ -1,0 +1,1 @@
+/home/os/opencv_practice/Chapter_04/histograms/build/CMakeFiles/histograms.dir

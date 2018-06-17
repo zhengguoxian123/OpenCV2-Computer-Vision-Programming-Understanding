@@ -1,0 +1,1 @@
+/home/zgx/opencv2_practicecode/Chapter_10/videoprocess/build/CMakeFiles/videoprocess.dir
